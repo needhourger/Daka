@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Daka - 添加记录{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <div class="well well-sm">
+        <div class="panel-heading">
+            <h1>为 {{ user.nickname }} 添加记录</h1>
+        </div>
+        <div class="panel-body">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

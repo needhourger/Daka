@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Daka - 打卡中心{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    {% if current_user.is_authenticated %}
+    <h1>Hello {{ current_user.nickname }} !</h1>
+    {% else %}
+    <h1>Hello world</h1>
+    {% endif %}
+    {% if not current_user.is_clock_in() %}
+    <a href="/main/clock_in"><button type="button" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-check"></span> 打卡</button></a>
+    {% elif not current_user.is_clock_out() %}
+    <a href="/main/clock_out"><button type="button" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-check"></span> 签退</button></a>
+    {% else %}
+    <h1>您今日已完成打卡！</h1>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Daka{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/main">Daka</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/main"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="/main/clock"><span class="glyphicon glyphicon-check"></span> 打卡</a></li>
+                {% endif %}
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                <li><a href="/main/account_manager_admin/0"><span class="glyphicon glyphicon-book"></span> 用户管理</a></li>
+                {% endif %}
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                <li><a href="/main/record_admin/{{ current_user.id }}"><span class="glyphicon glyphicon-th-list"></span>
+                        记录</a></li>
+                {% elif current_user.is_authenticated %}
+                <li><a href="/main/record"><span class="glyphicon glyphicon-th-list"></span> 记录</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                <!-- <li><a href="/main/account_center"><span class="glyphicon glyphicon-bell"></span> 账户中心</a></li>
+            <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li> -->
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user"></span><b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/main/account_center"><span class="glyphicon glyphicon-bell"></span> 账户中心</a></li>
+                        <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="/auth/register"><span class="glyphicon glyphicon glyphicon-ok-circle"></span> 注册</a></li>
+                <li><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}

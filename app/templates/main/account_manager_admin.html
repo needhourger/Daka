@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Daka - 用户管理{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 pre-scrollable">
+            <ul class="nav nav-pills nav-stacked">
+                {% for u in users %}
+                    {% if u.id!=user.id %}
+                        <li><a href="/main/account_manager_admin/{{ u.id }}">{{ u.nickname }} - {{ u.username }}</a></li>
+                    {% else %}
+                        <li class="active"><a href="/main/account_manager_admin/{{ u.id }}">{{ u.nickname }} - {{ u.username }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="col-mod-2 well well-sm">
+                <div class="panel-heading">
+                    <h1>用户管理 - {{ user.nickname }}</h1>
+                </div>
+                <div class="panel-body">
+                    {{ wtf.quick_form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            <a href="/main/account_manager_admin/adduser"><button class="btn btn-primary">添加用户</button></a>
+        </div>
+        <div class="col-md-8"></div>
+        <div class="col-md-1">
+            <a href="/main/account_manager_admin/delete/{{ user.id }}"><button class="btn btn-danger">删除该用户</button></a>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

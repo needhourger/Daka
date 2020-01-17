@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Daka - 记录查看{% endblock %}
+
+{% block page_content %}
+<div class="container">
+    <div class="row">
+        <div class="well well-lg pre-scrollable">
+            <table class="table table-striped">
+                <caption>统计 - 总工时： {{ worktime | round(2,"floor") }} h</caption>
+                <thead>
+                    <tr>
+                        <th>年份</th>
+                        <th>月份</th>
+                        <th>工时</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr onclick="location.href='/main/record?year={{ i.year }}&month={{ i.month }}';">
+                        <td>{{ i.year }}</td>
+                        <td>{{ i.month }}</td>
+                        <td>{{ i.worktime | round(2,"floor") }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pre-scrollable">
+            <table class="table table-striped">
+                <caption>记录详情</caption>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>日期</th>
+                        <th>打卡时间</th>
+                        <th>签退时间</th>
+                        <th>本次工时</th>
+                        <th>完成记录</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i,r in records %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ r.date }}</td>
+                        <td>{{ r.clock_in_time }}</td>
+                        <td>{{ r.clock_out_time }}</td>
+                        <td>{{ r.hours | round(2,"floor") }}</td>
+                        {% if r.clock_out %}
+                        <td>✔</td>
+                        {% else %}
+                        <td>❌</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
